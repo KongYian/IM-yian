@@ -51,7 +51,7 @@ class UserBaseInfo extends Model
                     'nickname'=>$info['nickname'],
                     'avatar'=>$info['figureurl'],
                     'openid'=>$openid,
-                    'sign'=>'常记溪亭日暮，沉醉不知归路',
+                    'sign'=>$this->getRandSign(),
                     'platform'=>$platform
                 ];
                 return $this->saveNewUser($openid,$platform,$insert);
@@ -64,7 +64,7 @@ class UserBaseInfo extends Model
                     'nickname'=>$info['uname'],
                     'avatar'=>'http://tb.himg.baidu.com/sys/portraitn/item/'.$info['portrait'],
                     'openid'=>$openid,
-                    'sign'=>'有花堪折直须折，莫待无花空折枝',
+                    'sign'=>$this->getRandSign(),
                     'platform'=>$platform
                 ];
                 return $this->saveNewUser($openid,$platform,$insert);
@@ -76,7 +76,7 @@ class UserBaseInfo extends Model
                     'nickname'=>$info['login'],
                     'avatar'=>$info['avatar_url'],
                     'openid'=>$openid,
-                    'sign'=>'昨夜雨疏风骤，浓睡不消残酒',
+                    'sign'=>$this->getRandSign(),
                     'platform'=>$platform
                 ];
                 return $this->saveNewUser($openid,$platform,$insert);
@@ -98,6 +98,18 @@ class UserBaseInfo extends Model
 
     public function setAllUseroffline(){
         $this->where(['online_status'=>1])->update(['online_status'=>0]);
+    }
+
+    public function getRandSign(){
+        $arr =  [
+            '常记溪亭日暮，沉醉不知归路',
+            '有花堪折直须折，莫待无花空折枝',
+            '昨夜雨疏风骤，浓睡不消残酒',
+            '苟以国家生死以，岂因祸福避趋之',
+            '桃之夭夭，灼灼其华',
+            '怨无大小，生于所爱'
+        ];
+        return $arr[mt_rand(0,10)];
     }
 
 }

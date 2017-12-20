@@ -30,13 +30,21 @@ class UserClient extends Model
             ->alias('a')
             ->join('user_base_info b','a.user_id = b.id')
             ->where(['a.user_id'=>$userId])
-            ->find()
-            ->getData();
-        return $res;
+            ->find();
+        if($res){
+            return $res->getData();
+        }else{
+            return false;
+        }
     }
 
     public function getUserIdByClientId($fd){
-        $res = $this->field('user_id')->where(['client_id'=>$fd])->find()->getData();
-        return $res['user_id'];
+        $res = $this->field('user_id')->where(['client_id'=>$fd])->find();
+        if($res){
+            $data = $res->getData();
+            return $data['user_id'];
+        }else{
+            return false;
+        }
     }
 }

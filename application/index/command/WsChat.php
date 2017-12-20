@@ -75,9 +75,13 @@ class WsChat extends Command
                     $res = $this->clientModel->getClientStatusByUserId($to['id']);
                     $toFd = $res['client_id'];
                     $status = $res['online_status'];
-                    if($status == 0){
-                        //离线先存储到reids中
-                        $rs->sendSingle($to['id'],$mine);
+                    if($ws->exist($toFd) == false){
+                        if($status == 1){
+                            //异常断线,手动下线
+                            $this->baseInfoModel->setOnlineStatus($to['id'],0);
+                        }
+                            //离线先存储到reids
+                            $rs->sendSingle($to['id'],$mine);
                     }else{
                         $this->sendPrivateChat($ws,$toFd,$mine);
                     }
@@ -89,15 +93,17 @@ class WsChat extends Command
         //监听WebSocket连接关闭事件
         $ws->on('close', function ($ws, $fd) {
             $userId = $this->clientModel->getUserIdByClientId($fd);
-            $this->baseInfoModel->setOnlineStatus($userId,0);
-            $this->boardcastWhenChangeStatus($ws,$userId,'friend_offline');
+            if($userId != false){
+                $this->baseInfoModel->setOnlineStatus($userId,0);
+                $this->boardcastWhenChangeStatus($ws,$userId,'friend_offline');
+            }
         });
 
         if($ws){
             echo 'port '.self::PORT.' is listening'."\n";
             $ws->start();
         }else{
-            echo 'ws is error';
+            echo 'ws start failed';
         }
     }
 
@@ -122,7 +128,7 @@ class WsChat extends Command
     }
 
     public function sendHandler($ws,$fd,$msg){
-        if($ws->exsit($fd) == true){
+        if($ws->exist($fd) == true){
             $ws->push($fd,json_encode($msg));
         }else{
             $userId = $this->clientModel->getUserIdByClientId($fd);

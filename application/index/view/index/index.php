@@ -183,7 +183,12 @@
                     });
                     break;
                 case 'marathon':
-                    layer.msg('marathon');
+                    layim.panel({
+                        title: 'marathon'
+                        ,tpl: '<div><iframe src="http://demo.blueyian.top/marathon/index.php" style="height:800px; width:100%; frameborder:0"></div>'
+                        ,data: { //数据
+                        }
+                    });
                     break;
             }
         });
