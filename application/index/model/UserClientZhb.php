@@ -13,7 +13,7 @@ use think\Db;
 use think\Log;
 use think\Model;
 
-class UserClient extends Model
+class UserClientZhb extends Model
 {
     public function bindClientIdToUserId($clientId,$userId){
         $exist = $this->where(['user_id'=>$userId])->find();
@@ -22,7 +22,6 @@ class UserClient extends Model
         }else{
             $this->where(['user_id'=>$userId])->update(['client_id'=>$clientId]);
         }
-        (new UserBaseInfo())->setOnlineStatus($userId);
     }
 
 
@@ -50,7 +49,7 @@ class UserClient extends Model
     }
 
     public function getClientIdByUserId($userId){
-        $res = Db::table('user_client')->field('client_id')->where(['user_id'=>$userId])->find();
+        $res = Db::table('user_client_zhb')->field('client_id')->where(['user_id'=>$userId])->find();
         return $res['client_id'];
     }
 }

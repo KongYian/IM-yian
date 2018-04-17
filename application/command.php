@@ -11,5 +11,7 @@
 
 return [
     'app\index\command\WsChat',
-    'app\index\command\WsChatStop'
+    'app\index\command\WsChatStop',
+    'app\index\command\WsChatZhb',
+    'app\index\command\WsChatStopZhb'
 ];

@@ -1,5 +1,6 @@
 <?php
 namespace app\index\controller;
+header("Access-Control-Allow-Origin:*");
 
 use app\index\model\UserBaseInfo;
 use app\library\filters\authenticate\ValidLoginFilter;
@@ -8,7 +9,6 @@ use app\library\units\Upload;
 use think\cache\driver\Redis;
 use think\Controller;
 use think\Log;
-
 class Index extends Controller
 {
     public $filter;
@@ -42,6 +42,9 @@ class Index extends Controller
     }
 
     public function uploadImage(){
+        Log::info('upload...');
+        Log::info($_FILES);
+        Log::info('end');
         $upload = new Upload();
         $src = $upload->upload();
         return OutputHelper::makeOutput(['src'=>$src]);

@@ -109,7 +109,7 @@ class UserBaseInfo extends Model
             '桃之夭夭，灼灼其华',
             '怨无大小，生于所爱'
         ];
-        return $arr[mt_rand(0,10)];
+        return $arr[mt_rand(0,5)];
     }
 
 }
